@@ -7,7 +7,7 @@ import kg.geektech.ruslan.petprojecthilt.core.BaseAdapter
 import kg.geektech.ruslan.petprojecthilt.data.model.Pictures
 import kg.geektech.ruslan.petprojecthilt.databinding.ItemPicturesBinding
 
-class PicturesAdapter(val onPopupMenuClickListener: (Pictures) -> Unit) : BaseAdapter<Pictures>(R.layout.item_pictures, mutableListOf()) {
+class PicturesAdapter : BaseAdapter<Pictures>(R.layout.item_pictures, mutableListOf()) {
 
     override fun getItemCount(): Int {
         return if (data.size == 0) 0 else Int.MAX_VALUE
@@ -20,7 +20,6 @@ class PicturesAdapter(val onPopupMenuClickListener: (Pictures) -> Unit) : BaseAd
     override fun onBind(view: View, model: Pictures) {
         ItemPicturesBinding.bind(view).also { binding ->
             model.url?.let { url -> binding.imageViewPictures.loadImage(url) }
-            binding.imageViewPopupMenu.setOnClickListener { onPopupMenuClickListener(model) }
         }
     }
 

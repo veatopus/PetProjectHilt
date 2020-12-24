@@ -1,18 +1,13 @@
 package kg.geektech.ruslan.petprojecthilt.ui.pictures
 
-import android.graphics.Bitmap
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import kg.geektech.ruslan.petprojecthilt.core.BaseViewModel
-import kg.geektech.ruslan.petprojecthilt.core.SavedImageToGalleryService
 import kg.geektech.ruslan.petprojecthilt.data.model.Pictures
 import kg.geektech.ruslan.petprojecthilt.data.network.Status
 import kg.geektech.ruslan.petprojecthilt.data.repositorty.PicturesRepository
 
 class PicturesViewModel(
-    private val repository: PicturesRepository,
-    private val imageService: SavedImageToGalleryService
+    private val repository: PicturesRepository
 ) : BaseViewModel() {
 
     val picturesListData = MutableLiveData<MutableList<Pictures>>()
@@ -42,11 +37,6 @@ class PicturesViewModel(
                 position % it.size
             )?.title.toString()
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    fun downloadClicked(bitmap: Bitmap) {
-        imageService.saveImage(bitmap, "pictures")
     }
 
 }

@@ -1,17 +1,12 @@
 package kg.geektech.ruslan.petprojecthilt.ui.pictures_info
 
-import android.annotation.SuppressLint
+import androidx.lifecycle.Observer
 import kg.geektech.ruslan.petprojecthilt.R
 import kg.geektech.ruslan.petprojecthilt.core.BaseFragment
 import kg.geektech.ruslan.petprojecthilt.core.gone
 import kg.geektech.ruslan.petprojecthilt.core.visible
 import kg.geektech.ruslan.petprojecthilt.databinding.FragmentPicturesInfoBinding
-import kg.geektech.ruslan.petprojecthilt.databinding.PicturesFragmentBinding
-import kg.geektech.ruslan.petprojecthilt.ui.pictures.PicturesViewModel
-import kotlinx.coroutines.newFixedThreadPoolContext
 import org.koin.android.ext.android.inject
-import org.koin.java.KoinJavaComponent.inject
-
 
 class PicturesInfoFragment : BaseFragment<PicturesInfoViewModel, FragmentPicturesInfoBinding>(R.layout.fragment_pictures_info) {
 
@@ -25,12 +20,14 @@ class PicturesInfoFragment : BaseFragment<PicturesInfoViewModel, FragmentPicture
         else binding?.progressBar?.gone()
     }
 
-
-    @SuppressLint("SetTextI18n")
     override fun setUpView() {
-        binding?.textView?.text = "information"
+        binding?.textView?.setOnClickListener { mViewModule?.finishClicked() }
     }
 
-    override fun setUpViewModelObs() {}
+    override fun setUpViewModelObs() {
+        mViewModule?.title?.observe(requireActivity(), Observer {
+            binding?.textView?.text = it
+        })
+    }
 
 }

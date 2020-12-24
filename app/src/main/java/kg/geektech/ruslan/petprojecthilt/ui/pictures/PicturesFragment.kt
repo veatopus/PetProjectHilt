@@ -1,18 +1,12 @@
 package kg.geektech.ruslan.petprojecthilt.ui.pictures
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+
 import kg.geektech.ruslan.petprojecthilt.R
 import kg.geektech.ruslan.petprojecthilt.core.BaseAdapter
 import kg.geektech.ruslan.petprojecthilt.core.BaseFragment
@@ -21,6 +15,7 @@ import kg.geektech.ruslan.petprojecthilt.core.visible
 import kg.geektech.ruslan.petprojecthilt.data.model.Pictures
 import kg.geektech.ruslan.petprojecthilt.databinding.PicturesFragmentBinding
 import kg.geektech.ruslan.petprojecthilt.ui.pictures.adapter.PicturesAdapter
+
 import org.koin.android.ext.android.inject
 
 
@@ -52,7 +47,7 @@ class PicturesFragment :
     }
 
     private fun addListener() {
-        adapter?.listener = object : BaseAdapter.IBaseAdapterClickListener<Pictures>{
+        adapter?.listener = object : BaseAdapter.IBaseAdapterClickListener<Pictures> {
             override fun onClick(model: Pictures) {
                 findNavController().navigate(R.id.action_picturesFragment_to_picturesInfoFragment)
             }
@@ -77,23 +72,8 @@ class PicturesFragment :
     }
 
     private fun initAdapter() {
-        adapter = PicturesAdapter { download(it) }
+        adapter = PicturesAdapter()
         binding?.recyclerView?.adapter = adapter
-    }
-
-    private fun download(pictures: Pictures) {
-        Glide.with(this)
-            .asBitmap()
-            .load(pictures.url)
-            .into(object : CustomTarget<Bitmap>() {
-
-                @RequiresApi(Build.VERSION_CODES.Q)
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    mViewModule?.downloadClicked(resource)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {}
-            })
     }
 
     override fun setUpViewModelObs() {
