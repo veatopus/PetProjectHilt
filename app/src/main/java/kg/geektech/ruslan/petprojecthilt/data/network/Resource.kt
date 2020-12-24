@@ -3,6 +3,7 @@ package kg.geektech.ruslan.petprojecthilt.data.network
 import android.util.Log
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
+
     companion object {
         fun <T> loading(data: T?): Resource<T> = Resource(status = Status.LOADING, data = data, message = null)
 
@@ -14,6 +15,7 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
             return result
         }
     }
+
 }
 
 enum class Status {
