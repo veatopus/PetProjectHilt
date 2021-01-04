@@ -1,6 +1,9 @@
 package kg.geektech.ruslan.petprojecthilt.di
 
 import kg.geektech.ruslan.petprojecthilt.data.network.RetrofitClient
+import kg.geektech.ruslan.petprojecthilt.data.network.provideLoggingInterceptor
+import kg.geektech.ruslan.petprojecthilt.data.network.provideOkHttpClient
+import kg.geektech.ruslan.petprojecthilt.data.network.providePicturesApi
 import kg.geektech.ruslan.petprojecthilt.data.repositorty.PicturesRepository
 import kg.geektech.ruslan.petprojecthilt.ui.pictures.PicturesViewModel
 import kg.geektech.ruslan.petprojecthilt.ui.pictures_info.PicturesInfoViewModel
@@ -14,7 +17,11 @@ var viewModelModule = module {
 }
 
 var networkModule = module {
-    factory { RetrofitClient().instanceRetrofit() }
+    single { RetrofitClient(get()) }
+    single { provideOkHttpClient(get()) }
+    single { provideLoggingInterceptor() }
+
+    factory { providePicturesApi(get()) }
 }
 
 var repositoryModule = module {

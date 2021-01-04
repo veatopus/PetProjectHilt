@@ -24,3 +24,8 @@ fun View.gone() {
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
+
+fun View.isVisible(state: Boolean){
+    if (state) this.visible()
+    else this.gone()
+}

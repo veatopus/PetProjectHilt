@@ -8,10 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 
 import kg.geektech.ruslan.petprojecthilt.R
-import kg.geektech.ruslan.petprojecthilt.core.BaseAdapter
-import kg.geektech.ruslan.petprojecthilt.core.BaseFragment
-import kg.geektech.ruslan.petprojecthilt.core.gone
-import kg.geektech.ruslan.petprojecthilt.core.visible
+import kg.geektech.ruslan.petprojecthilt.core.*
 import kg.geektech.ruslan.petprojecthilt.data.model.Pictures
 import kg.geektech.ruslan.petprojecthilt.databinding.PicturesFragmentBinding
 import kg.geektech.ruslan.petprojecthilt.ui.pictures.adapter.PicturesAdapter
@@ -31,17 +28,21 @@ class PicturesFragment :
         rootView?.let { PicturesFragmentBinding.bind(it) }
 
     override fun progress(isProgress: Boolean) {
-        if (isProgress) binding?.progressBar?.visible()
-        else binding?.progressBar?.gone()
+       binding?.progressBar?.isVisible(isProgress)
     }
 
     override fun setUpView() {
-        setUpRecycler()
+        setUpRecyclerView()
     }
 
-    private fun setUpRecycler() {
-        initAdapter()
-        addSnapHelper()
+    //не нужно разделять это на методы..
+    private fun setUpRecyclerView() {
+        val snapHelper: SnapHelper = LinearSnapHelper()
+        adapter = PicturesAdapter()
+        binding?.recyclerView.apply {
+            snapHelper.attachToRecyclerView(this)
+            this?.adapter = adapter
+        }
         addPositionListener()
         addListener()
     }
@@ -66,16 +67,6 @@ class PicturesFragment :
         })
     }
 
-    private fun addSnapHelper() {
-        val snapHelper: SnapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(binding?.recyclerView)
-    }
-
-    private fun initAdapter() {
-        adapter = PicturesAdapter()
-        binding?.recyclerView?.adapter = adapter
-    }
-
     override fun setUpViewModelObs() {
         subscribePictures()
         subscribeCurrentTitle()
@@ -95,6 +86,5 @@ class PicturesFragment :
             binding?.recyclerView?.scrollToPosition(targetPosition - (targetPosition % it.size))
         })
     }
-
 
 }
